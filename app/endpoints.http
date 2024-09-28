@@ -1,0 +1,49 @@
+#@baseUrl = http://spamoverflow-1666787504.us-east-1.elb.amazonaws.com/
+@baseUrl = http://localhost:8080
+
+### Health
+GET {{baseUrl}}/api/v1/health
+
+### test in specs for  service
+POST {{baseUrl}}/api/v1/customers/1111bc0b-3555-4732-a50b-d56e974614bb/emails
+Content-Type: application/json
+
+{
+    "contents": {
+        "subject": "Important information about your account.",
+        "body": "https://uq.edu.mu and https://uq.edu.au",
+        "from": "from hellonot@uq.edu.au",
+        "to": "no-reply@uq.edu.au"
+    },
+    "metadata": {
+        "spamhammer": "1|8"
+    }
+}
+
+### test 1
+GET {{baseUrl}}/api/v1/customers/8e0cbc0b-3555-4732-a50b-d56e974614bb/emails?start=not_a_time HTTP/1.1
+
+### test wrong UUID
+GET {{baseUrl}}/api/v1/customers/V-i-e-t-n-g-u-yen00/emails?start=2024-02-21T13:10:05Z HTTP/1.1
+
+### test wrong limit
+GET {{baseUrl}}/api/v1/customers/8e0cbc0b-3555-4732-a50b-d56e974614bb/emails?limit=5 HTTP/1.1
+
+### test wrong offset
+GET {{baseUrl}}/api/v1/customers/8e0cbc0b-3555-4732-a50b-d56e974614bb/emails?offset=-19999 HTTP/1.1
+
+### test wrong from
+GET {{baseUrl}}/api/v1/customers/8e0cbc0b-3555-4732-a50b-d56e974614bb/emails?from=pending@uq.e HTTP/1.1
+
+### test wrong state
+GET {{baseUrl}}/api/v1/customers/8e0cbc0b-3555-4732-a50b-d56e974614bb/emails?state=sleepy HTTP/1.1
+
+### test start
+GET {{baseUrl}}//api/v1/customers/8e0cbc0b-3555-4732-a50b-d56e974614bb/emails?start=2024-03-21 HTTP/1.1
+
+### test invalid only_malicious
+GET {{baseUrl}}//api/v1/customers/8e0cbc0b-3555-4732-a50b-d56e974614bb//emails?only_malicious=tRuE HTTP/1.1
+
+### test in specs for first GET service
+GET {{baseUrl}}//api/v1/customers/8e0cbc0b-3555-4732-a50b-d56e974614bb/emails?limit=20&offset=0&start=2024-02-21T13:10:05Z&end=2024-02-21T14:10:05Z&from=no-reply@uq.edu.au&to=support@uq.edu.au&state=scanned&only_malicious=true" HTTP/1.1
+

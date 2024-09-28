@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  database:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: verySecretPassword
+      POSTGRES_USER: administrator
+      POSTGRES_DB: todo
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    networks:
+      - mynet
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - mynet
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: poetry run celery -A spamoverflow.celery_app worker --loglevel=info --concurrency=4 -Q high,standard -E
+    volumes:
+      - ./:/app
+      - ../credentials:/root/.aws/credentials  # AWS credentials
+    environment:
+      # CELERY_BROKER_URL: redis://redis:6379
+      # BROKER_URL: sqs://ASIAVRUVU5W7N33LHRMR:KboTU8cFC5VRNNY5zO+17LMlsuDvjpiV99Jopohw@us-east-1 #port 443 # AWS SQS
+      SQLALCHEMY_DATABASE_URI: postgresql://administrator:verySecretPassword@database:5432/todo
+    depends_on:
+      - redis
+      - database
+    links:
+      - redis
+    networks:
+      - mynet
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    volumes:
+      - ./:/app
+      - ../credentials:/root/.aws/credentials # AWS credentials
+    environment:
+      SQLALCHEMY_DATABASE_URI: postgresql://administrator:verySecretPassword@database:5432/todo
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    networks:
+      - mynet
+
+networks:
+  mynet:
+    driver: bridge

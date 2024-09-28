@@ -1,0 +1,20 @@
+FROM --platform=linux/amd64 ubuntu:22.04
+ENV SQLALCHEMY_DATABASE_URI=sqlite:///:memory:
+
+# Installing dependencies for running a python application
+RUN apt-get update && apt-get install -y python3 python3-pip postgresql-client libpq-dev libcurl4-openssl-dev libssl-dev  wget && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+# Install pipenv
+RUN pip3 install poetry
+# Setting the working directory
+WORKDIR /app
+# Install pipenv dependencies
+COPY pyproject.toml ./
+RUN poetry install --no-root
+# Copying our application into the container
+COPY bin bin
+COPY spamoverflow spamoverflow
+# Running our celery worker
+# command: poetry run celery -A spamoverflow.celery_app worker --loglevel=info --concurrency=4 -Q high,standard -E
+CMD ["poetry", "run", "celery", "--app", "spamoverflow.celery_app", "worker", "--loglevel=info", "--concurrency=4", "-Q", "high,standard", "-E"]

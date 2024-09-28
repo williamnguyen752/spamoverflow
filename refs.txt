@@ -1,0 +1,17 @@
+[1] J. Goyvaerts and S. Levithan, “Regular expressions cookbook, 2nd edition,” O’Reilly Online Learning, https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s01.html (accessed Mar. 24, 2024). 
+[2] Jeffrey SwanJeffrey Swan                      53722 gold badges88 silver badges2626 bronze badges, Padraic CunninghamPadraic Cunningham                      178k3030 gold badges256256 silver badges322322 bronze badges, and deetsdeets                      6, “Subprocess Popen not capturing WGET --Spider Command result,” Stack Overflow, https://stackoverflow.com/questions/28415801/subprocess-popen-not-capturing-wget-spider-command-result (accessed Mar. 24, 2024). 
+[3] [1] Zee SpencerZee Spencer                      3 et al., “How do you validate a URL with a regular expression in python?,” Stack Overflow, https://stackoverflow.com/questions/827557/how-do-you-validate-a-url-with-a-regular-expression-in-python (accessed Mar. 24, 2024). 
+
+https://repost.aws/knowledge-center/iam-ec2-user-role-credentials
+
+https://docs.celeryq.dev/en/stable/getting-started/backends-and-brokers/sqs.html
+
+https://ruan.dev/blog/2018/05/09/temporary-iam-credentials-from-ec2-instance-metadata-using-python
+
+https://reintech.io/blog/integrating-celery-amazon-sqs-message-broker
+
+https://flask.palletsprojects.com/en/2.3.x/patterns/celery/
+
+https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#guide-credentials
+
+https://docs.aws.amazon.com/codeguru/detector-library/python/aws-logged-credentials/
